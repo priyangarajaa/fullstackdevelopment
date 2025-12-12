@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>பூச்சி கண்டறிதல் முடிவு</title>
+
+  <style>
+    body{
+      margin:0;
+      background:url('https://images.pexels.com/photos/296230/pexels-photo-296230.jpeg') center/cover no-repeat;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:"Poppins",sans-serif;
+    }
+
+    .box{
+      background:rgba(255,255,255,0.92);
+      padding:25px;
+      border-radius:18px;
+      width:90%;
+      max-width:480px;
+      text-align:center;
+      box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    h2{
+      margin:0;
+      font-size:26px;
+      color:#1e4d2b;
+      margin-bottom:10px;
+    }
+
+    .warning{
+      color:#d60000;
+      font-weight:700;
+      font-size:19px;
+      margin-top:18px;
+    }
+
+    .result{
+      font-size:18px;
+      margin-top:18px;
+      color:#333; 
+    }
+
+    .image-preview{
+      width:100%;
+      max-width:300px;
+      height:200px;
+      border-radius:12px;
+      margin:15px auto;
+      object-fit:cover;
+      border:2px solid rgba(30,120,70,0.2);
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box" id="resultBox">
+      <!-- JS will fill content -->
+  </div>
+
+<script>
+  // Retrieve pest image from browser cache (localStorage)
+  const cachedImage = localStorage.getItem("pestImage");
+  const cachedImageName = localStorage.getItem("pestImageName") || "Uploaded Image";
+
+  // MAIN LOGIC
+  if (!cachedImage) {
+      document.getElementById("resultBox").innerHTML = `
+        <h2>பூச்சி கண்டறிதல் முடியவில்லை</h2>
+        <p>பதிவேற்றப்பட்ட படத்தின் அடிப்படையில் பெறப்பட்ட தகவல்</p>
+        <p class="warning">⚠ தயவு செய்து முதலில் பூச்சி படத்தை பதிவேற்றவும்!</p>
+      `;
+  } 
+  else {
+      // Array of 5 different pest detection results
+      const pestResults = [
+        {
+          pestName: "அப்பிஸ் (Aphids)",
+          description: "சிறிய பச்சை அல்லது கருப்பு பூச்சிகள்",
+          treatment: "நீமாயில் அல்லது சோப்பு தண்ணீர் கரைசல் பயன்படுத்தவும்"
+        },
+        {
+          pestName: "வெள்ளை ஈ (Whitefly)",
+          description: "சிறிய வெள்ளை பூச்சிகள், இலைகளின் கீழ் பகுதியில் காணப்படும்",
+          treatment: "நீயம் எண்ணெய் அல்லது இயற்கை பூச்சிக்கொல்லி பயன்படுத்தவும்"
+        },
+        {
+          pestName: "துளைப்பூச்சி (Borer)",
+          description: "தண்டு மற்றும் கிளைகளில் துளைத்து சேதம் விளைவிக்கும்",
+          treatment: "கார்போஃபுரான் அல்லது குளோர்பைரிஃபாஸ் பயன்படுத்தவும்"
+        },
+        {
+          pestName: "இலை தின்னும் பூச்சி (Leaf Miner)",
+          description: "இலைகளில் வெள்ளை தடங்கள் உருவாக்கும்",
+          treatment: "இமிடாக்ளோப்ரிட் அல்லது அபமெக்டின் பயன்படுத்தவும்"
+        },
+        {
+          pestName: "தென்னை பூச்சி (Coconut Bug)",
+          description: "தென்னை மற்றும் பனை மரங்களில் தாக்கும்",
+          treatment: "மாலத்தியான் அல்லது ஃபென்வலரேட் பயன்படுத்தவும்"
+        }
+      ];
+
+      // Randomly select one result
+      const randomIndex = Math.floor(Math.random() * pestResults.length);
+      const selectedResult = pestResults[randomIndex];
+
+      document.getElementById("resultBox").innerHTML = `
+        <h2>பூச்சி கண்டறிதல் முடிவு</h2>
+        <p>பதிவேற்றப்பட்ட படம்: <b>${cachedImageName}</b></p>
+        
+        <img src="${cachedImage}" alt="Uploaded Image" class="image-preview" />
+
+        <div class="result">
+          <b>பூச்சி வகை:</b> ${selectedResult.pestName}<br><br>
+          <b>விளக்கம்:</b> ${selectedResult.description}<br><br>
+          <b>சிகிச்சை:</b> ${selectedResult.treatment}
+        </div>
+      `;
+  }
+</script>
+
+</body>
+</html>
+

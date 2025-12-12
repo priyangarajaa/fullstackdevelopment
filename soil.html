@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>மண் பரிசோதனை முடிவு</title>
+
+  <style>
+    body{
+      margin:0;
+      background:url('https://images.pexels.com/photos/296230/pexels-photo-296230.jpeg') center/cover no-repeat;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:"Poppins",sans-serif;
+    }
+
+    .box{
+      background:rgba(255,255,255,0.92);
+      padding:25px;
+      border-radius:18px;
+      width:90%;
+      max-width:480px;
+      text-align:center;
+      box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    h2{
+      margin:0;
+      font-size:26px;
+      color:#1e4d2b;
+      margin-bottom:10px;
+    }
+
+    .warning{
+      color:#d60000;
+      font-weight:700;
+      font-size:19px;
+      margin-top:18px;
+    }
+
+    .result{
+      font-size:18px;
+      margin-top:18px;
+      color:#333; 
+    }
+
+    .image-preview{
+      width:100%;
+      max-width:300px;
+      height:200px;
+      border-radius:12px;
+      margin:15px auto;
+      object-fit:cover;
+      border:2px solid rgba(30,120,70,0.2);
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box" id="resultBox">
+      <!-- JS will fill content -->
+  </div>
+
+<script>
+  // Retrieve soil image from browser cache (localStorage)
+  const cachedImage = localStorage.getItem("soilImage");
+  const cachedImageName = localStorage.getItem("soilImageName") || "Uploaded Image";
+
+  // MAIN LOGIC
+  if (!cachedImage) {
+      document.getElementById("resultBox").innerHTML = `
+        <h2>மண் பரிசோதனை முடியவில்லை</h2>
+        <p>பதிவேற்றப்பட்ட படத்தின் அடிப்படையில் பெறப்பட்ட தகவல்</p>
+        <p class="warning">⚠ தயவு செய்து முதலில் மண் படத்தை பதிவேற்றவும்!</p>
+      `;
+  } 
+  else {
+      // Array of 5 different soil analysis results
+      const soilResults = [
+        {
+          soilType: "கருப்பு மண்சரம் (Black Soil)",
+          crops: "பருத்தி, கொள்ளு, சோளம், வரகு, கேழ்வரகு"
+        },
+        {
+          soilType: "சிவப்பு மண் (Red Soil)",
+          crops: "கேழ்வரகு, தினை, சோளம், பருப்பு வகைகள், எண்ணெய் வித்துக்கள்"
+        },
+        {
+          soilType: "மணல் மண் (Sandy Soil)",
+          crops: "கடலை, பீன்ஸ், கேரட், உருளைக்கிழங்கு, தக்காளி"
+        },
+        {
+          soilType: "களிமண் (Clay Soil)",
+          crops: "நெல், கரும்பு, கோதுமை, பார்லி, பீன்ஸ்"
+        },
+        {
+          soilType: "வண்டல் மண் (Alluvial Soil)",
+          crops: "நெல், கரும்பு, கோதுமை, பருத்தி, சோளம், பருப்பு வகைகள்"
+        }
+      ];
+
+      // Randomly select one result
+      const randomIndex = Math.floor(Math.random() * soilResults.length);
+      const selectedResult = soilResults[randomIndex];
+
+      document.getElementById("resultBox").innerHTML = `
+        <h2>மண் பரிசோதனை முடிவு</h2>
+        <p>பதிவேற்றப்பட்ட படம்: <b>${cachedImageName}</b></p>
+        
+        <img src="${cachedImage}" alt="Uploaded Image" class="image-preview" />
+
+        <div class="result">
+          <b>மண் வகை:</b> ${selectedResult.soilType}<br><br>
+          <b>பயிரிட ஏற்ற பயிர்கள்:</b><br>${selectedResult.crops}
+        </div>
+      `;
+  }
+</script>
+
+</body>
+</html>

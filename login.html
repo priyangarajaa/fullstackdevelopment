@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AGRO-KINETICx — Login / Create Account</title>
+  <style>
+    :root{
+      --green-1:#d6ffe7;
+      --green-2:#c8f0d6;
+      --accent:#000000;
+      --accent-2:#2eb874;
+      --dark:#0b3b2e;
+      --card:rgba(240, 240, 240, 0.95);
+      --shadow: 0 8px 30px rgba(10,30,20,0.12);
+      font-family: Book Antiqua, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background-image: url(https://img.freepik.com/premium-photo/spring-grain-concept-agriculture-healthy-eating-organic-food-generative-ai_58409-32489.jpg?w=2000);background-repeat: no-repeat;background-size: cover;
+    }
+    .container{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;
+    }
+
+    .card{
+      width:100%;max-width:460px;background:var(--card);border-radius:16px;padding:26px;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    .brand{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:4px}
+    .brand h1{margin:0;font-size:26px;color:var(--dark);letter-spacing:-0.4px}
+    .brand .sub{font-size:13px;color:#2b6b4a;font-weight:600}
+
+    form{display:flex;flex-direction:column;gap:10px}
+
+    .row{display:flex;gap:10px}
+    .col{flex:1;display:flex;flex-direction:column}
+    label{font-size:13px;color:#234d35;margin-bottom:6px;font-weight:600}
+    input[type="text"],input[type="password"],input[type="email"],input[type="tel"]{
+      width:100%;padding:12px 12px;border-radius:10px;border:1px solid rgba(20,70,40,0.14);font-size:15px;
+      outline:none;background:transparent;
+    }
+    input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,138,76,0.08)}
+
+    .field{
+      position:relative;display:flex;flex-direction:column;
+    }
+
+    .eye{
+      position:absolute;right:10px;top:38px;cursor:pointer;font-size:14px;color:#2f6f4b;
+      user-select:none;padding:6px;border-radius:6px;
+    }
+
+    .btn{
+      padding:12px;border-radius:10px;border:0;font-weight:700;font-size:15px;cursor:pointer;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;
+      box-shadow:0 8px 22px rgba(31,138,76,0.16);
+    }
+
+    .link{font-size:14px;color:var(--accent);text-decoration:underline;cursor:pointer;text-align:center}
+
+    .small{font-size:13px;color:#375c45}
+
+    .errors{color:#a82b2b;font-size:13px;margin-top:6px}
+
+    .hidden{display:none}
+
+    /* success modal */
+    .modal-back{position:fixed;inset:0;background:rgba(8,20,12,0.45);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{background:white;padding:18px;border-radius:12px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(5,20,10,0.5)}
+    .modal h3{margin:0;color:#0b4f2f}
+
+    @media (max-width:520px){
+      .card{padding:18px}
+      .eye{top:36px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="loginCard">
+      <div class="brand">
+        <h1>AGRO-KINETICx</h1>
+        <div class="sub">AI for Smart Farming</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" placeholder="Enter username" autocomplete="username" />
+          <div id="errLoginUser" class="errors hidden">Invalid username</div>
+        </div>
+
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" autocomplete="current-password" />
+          <div class="eye" id="toggleLoginPwd" title="Show / hide password">Show</div>
+          <div id="errLoginPass" class="errors hidden">Invalid password</div>
+        </div>
+
+        <button type="button" id="btnLogin" class="btn">LOGIN</button>
+
+        <div class="small" style="text-align:center;color:#234d35">Don't have an account?</div>
+        <div class="link" id="openCreate">Create New Account</div>
+      </form>
+    </div>
+
+    <!-- CREATE ACCOUNT CARD (hidden by default) -->
+    <div class="card hidden" id="createCard" aria-hidden="true" style="margin-left:14px">
+      <div class="brand">
+        <h1>Create Account</h1>
+        <div class="sub">Join AGRO-KINETICx</div>
+      </div>
+
+      <form id="createForm" novalidate>
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" placeholder="e.g. Ramesh Kumar" />
+          <div id="errFullName" class="errors hidden">Full name is required</div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" type="tel" placeholder="+91 98765 43210" />
+          <div id="errPhone" class="errors hidden">Enter a valid phone number (7–15 digits)</div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email ID</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+          <div id="errEmail" class="errors hidden">Enter a valid email address</div>
+        </div>
+
+        <div class="field">
+          <label for="newUsername">Username</label>
+          <input id="newUsername" type="text" placeholder="Choose a username" />
+          <div id="errNewUser" class="errors hidden">Username must be at least 4 characters</div>
+        </div>
+
+        <div class="row">
+          <div class="col field">
+            <label for="newPassword">Password</label>
+            <input id="newPassword" type="password" placeholder="Create password" autocomplete="new-password" />
+            <div id="errNewPass" class="errors hidden">Password must be at least 6 characters</div>
+          </div>
+          <div class="col field">
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" type="password" placeholder="Re-enter password" />
+            <div id="errConfirm" class="errors hidden">Passwords do not match</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center">
+          <div style="flex:1">
+            <button type="button" id="btnCreate" class="btn">CREATE ACCOUNT</button>
+          </div>
+          <div style="align-self:center">
+            <div class="link" id="backToLogin">Back to Login</div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success modal -->
+  <div class="modal-back" id="modalBack">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Success</h3>
+      <p id="modalMsg" style="color:#234d35;margin-top:8px">Account created successfully.</p>
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
+        <button class="btn" id="modalOk">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // element refs
+    const loginCard = document.getElementById('loginCard');
+    const createCard = document.getElementById('createCard');
+    const openCreate = document.getElementById('openCreate');
+    const backToLogin = document.getElementById('backToLogin');
+
+    // login fields
+    const loginUsername = document.getElementById('loginUsername');
+    const loginPassword = document.getElementById('loginPassword');
+    const errLoginUser = document.getElementById('errLoginUser');
+    const errLoginPass = document.getElementById('errLoginPass');
+    const btnLogin = document.getElementById('btnLogin');
+    const toggleLoginPwd = document.getElementById('toggleLoginPwd');
+
+    // create fields
+    const fullName = document.getElementById('fullName');
+    const phone = document.getElementById('phone');
+    const email = document.getElementById('email');
+    const newUsername = document.getElementById('newUsername');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    // create errors
+    const errFullName = document.getElementById('errFullName');
+    const errPhone = document.getElementById('errPhone');
+    const errEmail = document.getElementById('errEmail');
+    const errNewUser = document.getElementById('errNewUser');
+    const errNewPass = document.getElementById('errNewPass');
+    const errConfirm = document.getElementById('errConfirm');
+
+    // modal
+    const modalBack = document.getElementById('modalBack');
+    const modalMsg = document.getElementById('modalMsg');
+    const modalOk = document.getElementById('modalOk');
+
+    // helpers
+    function show(el){ el.classList.remove('hidden'); el.setAttribute('aria-hidden','false'); }
+    function hide(el){ el.classList.add('hidden'); el.setAttribute('aria-hidden','true'); }
+    function setError(el, text){
+      el.textContent = text;
+      el.classList.remove('hidden');
+    }
+    function clearError(el){
+      el.textContent = '';
+      el.classList.add('hidden');
+    }
+
+    // toggle login password visibility
+    toggleLoginPwd.addEventListener('click', () => {
+      const p = loginPassword;
+      if(p.type === 'password'){ p.type = 'text'; toggleLoginPwd.textContent = 'Hide'; }
+      else { p.type = 'password'; toggleLoginPwd.textContent = 'Show'; }
+    });
+
+    // also add show/hide for create password fields (small convenience)
+    function addShowHide(input){
+      const eye = document.createElement('div');
+      eye.textContent = 'Show';
+      eye.className = 'eye';
+      eye.style.top = '6px';
+      eye.style.right = '8px';
+      eye.style.position = 'absolute';
+      eye.style.transform = 'translateY(30px)';
+      eye.style.fontSize = '13px';
+      eye.style.padding = '6px';
+      eye.style.userSelect = 'none';
+      eye.style.cursor = 'pointer';
+      // place inside parent field
+      const parent = input.parentElement;
+      parent.style.position = 'relative';
+      parent.appendChild(eye);
+      eye.addEventListener('click', () => {
+        if(input.type === 'password'){ input.type = 'text'; eye.textContent = 'Hide'; }
+        else { input.type = 'password'; eye.textContent = 'Show'; }
+      });
+    }
+    addShowHide(newPassword);
+    addShowHide(confirmPassword);
+
+    // Switch views
+    openCreate.addEventListener('click', () => {
+      loginCard.classList.add('hidden');
+      createCard.classList.remove('hidden');
+      loginCard.setAttribute('aria-hidden','true');
+      createCard.setAttribute('aria-hidden','false');
+    });
+    backToLogin.addEventListener('click', () => {
+      createCard.classList.add('hidden');
+      loginCard.classList.remove('hidden');
+      createCard.setAttribute('aria-hidden','true');
+      loginCard.setAttribute('aria-hidden','false');
+    });
+
+    // Basic validators
+    function validEmail(e){
+      const p = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return p.test(e);
+    }
+    function validPhone(p){
+      if(!p) return false;
+      // allow digits, spaces, +, -, parentheses; ensure 7-15 digits total
+      const digits = p.replace(/\D/g,'');
+      return digits.length >= 7 && digits.length <= 15;
+    }
+
+    // Create form submit
+    document.getElementById('btnCreate').addEventListener('click', () => {
+      // clear errors
+      [errFullName, errPhone, errEmail, errNewUser, errNewPass, errConfirm].forEach(clearError);
+
+      let ok = true;
+      if(!fullName.value.trim()){
+        setError(errFullName, 'Full name is required');
+        ok = false;
+      }
+      if(!validPhone(phone.value.trim())){
+        setError(errPhone, 'Enter a valid phone number (7–15 digits)');
+        ok = false;
+      }
+      if(!validEmail(email.value.trim())){
+        setError(errEmail, 'Enter a valid email address');
+        ok = false;
+      }
+      if(newUsername.value.trim().length < 4){
+        setError(errNewUser, 'Username must be at least 4 characters');
+        ok = false;
+      }
+      if(newPassword.value.length < 6){
+        setError(errNewPass, 'Password must be at least 6 characters');
+        ok = false;
+      }
+      if(newPassword.value !== confirmPassword.value){
+        setError(errConfirm, 'Passwords do not match');
+        ok = false;
+      }
+
+      if(!ok){
+        alert('Invalid input — please fix the highlighted fields.');
+        return;
+      }
+
+      // Demo success: show modal and switch to login
+      modalMsg.textContent = 'Account created successfully! You can now log in.';
+      modalBack.style.display = 'flex';
+      modalOk.focus();
+
+      // clear create form (for demo)
+      document.getElementById('createForm').reset();
+    });
+
+    modalOk.addEventListener('click', () => {
+      modalBack.style.display = 'none';
+      // back to login
+      createCard.classList.add('hidden');
+      loginCard.classList.remove('hidden');
+      createCard.setAttribute('aria-hidden','true');
+      loginCard.setAttribute('aria-hidden','false');
+    });
+
+    // Login submit (validation only). On success redirect to index.html
+    btnLogin.addEventListener('click', () => {
+      clearError(errLoginUser); clearError(errLoginPass);
+
+      let ok = true;
+      if(loginUsername.value.trim().length < 4){
+        setError(errLoginUser, 'Enter a valid username (min 4 chars)');
+        ok = false;
+      }
+      if(loginPassword.value.length < 4){
+        setError(errLoginPass, 'Enter a valid password (min 4 chars)');
+        ok = false;
+      }
+
+      if(!ok){
+        alert('Invalid input — please fix the highlighted fields.');
+        return;
+      }
+
+      // Demo: redirect to main project page
+      // Ensure index.html is present in the same folder
+      window.location.href = 'index.html';
+    });
+
+    // small accessibility: hide modal on ESC
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && modalBack.style.display === 'flex'){
+        modalBack.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

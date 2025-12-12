@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGRO-KINETICx — Diagnosis</title>
+
+  <style>
+    :root{
+      --green-1:#d6ffe7;
+      --green-2:#c8f0d6;
+      --accent:#000000;
+      --accent-2:#2eb874;
+      --dark:#0b3b2e;
+      --card:rgba(240, 240, 240, 0.95);
+      --shadow: 0 8px 30px rgba(10,30,20,0.12);
+      font-family: Book Antiqua, serif;
+    }
+
+    body{
+      margin:0;
+      background-image:url(https://img.freepik.com/premium-photo/spring-grain-concept-agriculture-healthy-eating-organic-food-generative-ai_58409-32489.jpg?w=2000);
+      background-size:cover;
+      background-repeat:no-repeat;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .box{
+      background:var(--card);
+      padding:30px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      width:90%;
+      max-width:420px;
+      text-align:center;
+    }
+
+    h1{
+      margin:0;
+      color:var(--dark);
+      font-size:28px;
+      margin-bottom:10px;
+    }
+
+    .sub{
+      font-size:15px;
+      color:#2b6b4a;
+      margin-bottom:25px;
+    }
+
+    .btn{
+      width:100%;
+      padding:14px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;
+      border:0;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:700;
+      margin-bottom:14px;
+      box-shadow: 0 8px 22px rgba(31,138,76,0.18);
+    }
+  </style>
+
+  <!-- ✅ Inserted JavaScript placed correctly here -->
+  <script>
+    function goToSoilWithImage(uploadedFileName) {
+      window.location.href = "soil.html?img=" + uploadedFileName;
+    }
+  </script>
+  <!-- End Inserted JS -->
+
+</head>
+
+<body>
+  <div class="box">
+    <h1>DIAGNOSIS</h1>
+    <div class="sub">Choose the type of analysis you want to perform</div>
+
+    <button class="btn" onclick="window.location.href='soil.html'">SOIL ANALYSIS</button>
+    <button class="btn" onclick="window.location.href='pest.html'">PEST DETECTION</button>
+  </div>
+</body>
+</html>

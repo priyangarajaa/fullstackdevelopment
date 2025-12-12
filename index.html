@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AGRO-KINETICx — AI for Smart Farming</title>
+  <style>
+    :root{
+      --green-1:#e6f7ed;
+      --green-2:#c8f0d6;
+      --accent:#1f8a4c;
+      --dark:#0b3b2e;
+      --glass: rgba(255,255,255,0.08);
+      --card: rgba(255,255,255,0.85);
+      --shadow: 0 8px 30px rgba(10,30,20,0.18);
+      --radius:18px;
+      font-family: "Book Antiqua", system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Book Antiqua;
+    }
+
+    html,body{height:100%;margin:0}
+    body{
+      background-image: url(https://i.pinimg.com/1200x/d0/d7/d1/d0d7d1499242bdeef28d1b953be68b08.jpg);
+      background-size: cover;
+      display:flex;align-items:center;justify-content:center;padding:40px;
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+
+    .wrap{
+      width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(119, 168, 75, 0.9), rgba(255,255,255,0.95));
+      border-radius:24px;padding:28px;box-shadow:var(--shadow);
+      display:grid;grid-template-columns:1fr 460px;gap:20px;align-items:stretch;
+    }
+
+    .hero{
+      padding:20px 26px;display:flex;flex-direction:column;gap:18px;justify-content:center;
+    }
+
+    .brand{display:flex;gap:14px;align-items:center;}
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent), #2eb874);
+      display:flex;align-items:center;justify-content:center;
+      color:white;font-weight:700;font-size:20px;
+      box-shadow:0 8px 18px rgba(31,138,76,0.18)
+    }
+
+    h1{margin:0;font-size:40px;color:var(--dark);letter-spacing:-0.6px}
+    .subtitle{color:#2b6b4a;font-weight:600}
+
+    p.lead{margin:0;color:#234d35;opacity:0.95;line-height:1.5}
+
+    .controls{display:flex;gap:12px;margin-top:6px}
+    .btn{
+      border:0;padding:14px 18px;border-radius:12px;font-weight:700;cursor:pointer;
+      font-size:15px;box-shadow:0 6px 18px rgba(10,30,20,0.06);
+      transition:transform .18s ease, box-shadow .18s ease, opacity .12s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .primary{background:linear-gradient(90deg,var(--accent), #2eb874);color:white}
+    .secondary{background:transparent;border:2px solid rgba(31,138,76,0.12);color:var(--dark)}
+
+    .panel{
+      background:linear-gradient(180deg, rgba(253, 255, 252, 0.9), rgba(254, 255, 253, 0.78));
+      border-radius:16px;padding:18px;display:flex;flex-direction:column;
+      gap:12px;align-items:stretch;box-shadow:0 4px 18px rgba(10,30,20,0.06)
+    }
+
+    .uploader{
+      border-radius:12px;border:2px dashed rgba(30,120,70,0.08);
+      padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+    }
+
+    .upload-preview{
+      width:100%;height:150px;border-radius:10px;background:#f7fff8;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+      border:1px solid rgba(16,70,39,0.03)
+    }
+    .upload-preview img{max-width:100%;max-height:100%;object-fit:cover}
+    
+    h4{margin:0;font-size:16px;color:#2b6b4a}
+
+    @media (max-width:980px){
+      .wrap{grid-template-columns:1fr;}
+      .panel{order:-1}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="brand">
+        <div class="logo">AKx</div>
+        <div>
+          <div style="font-size:12px;color:#4c6b53">WELCOME TO</div>
+          <div style="font-weight:700;color:#0f4e36;">AGRO-KINETICx</div>
+        </div>
+      </div>
+
+      <h1>AGRO-KINETICx</h1>
+      <div class="subtitle">AI for Smart Farming</div>
+
+      <p class="lead">உள்ளுணர்வு, விவசாயிக்கு ஏற்ற இடைமுகத்தைப் பயன்படுத்தி பொதுவான பயிர் பூச்சிகளை விரைவாகக் கண்டறியவும்.</p>
+
+      <div class="controls">
+        <!-- DO NOT CHANGE ORIGINAL -->
+        <button class="btn" id="startDiagBtn">START DIAGNOSIS</button>
+        <button class="btn secondary" id="aboutBtn">ABOUT THE PROJECT</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h3>Upload Images</h3>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="margin:0 0 10px 0;font-size:16px;color:#2b6b4a;">1. Soil Analysis Image</h4>
+        <div class="uploader" id="dropzoneSoil">
+          <div style="font-size:13px;color:#456b55;">Drag & drop or click to choose</div>
+          <input id="fileInputSoil" type="file" accept="image/*" style="display:none" />
+          <div class="upload-preview" id="previewSoil">No image yet</div>
+          <button class="btn secondary" id="chooseFileSoil">Choose File</button>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="margin:0 0 10px 0;font-size:16px;color:#2b6b4a;">2. Pest Analysis Image</h4>
+        <div class="uploader" id="dropzonePest">
+          <div style="font-size:13px;color:#456b55;">Drag & drop or click to choose</div>
+          <input id="fileInputPest" type="file" accept="image/*" style="display:none" />
+          <div class="upload-preview" id="previewPest">No image yet</div>
+          <button class="btn secondary" id="chooseFilePest">Choose File</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ABOUT MODAL -->
+  <div id="modal" class="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;">
+    <div class="modal" style="background:white;padding:20px;border-radius:14px;max-width:600px">
+      <h2>About AGRO-KINETICx</h2>
+      <p>இந்த தளம் விவசாயிகளுக்கு மண்/இலைப் படங்களிலிருந்து பூச்சி வகைகளை விரைவாக அடையாளம் காண உதவுகிறது..</p>
+      <button class="btn secondary" id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Modal
+    const modal = document.getElementById("modal");
+    document.getElementById("aboutBtn").onclick = () => modal.style.display = "flex";
+    document.getElementById("closeModal").onclick = () => modal.style.display = "none";
+
+    // Upload logic for Soil Image
+    const fileInputSoil = document.getElementById("fileInputSoil");
+    const chooseFileSoil = document.getElementById("chooseFileSoil");
+    const previewSoil = document.getElementById("previewSoil");
+
+    chooseFileSoil.onclick = () => fileInputSoil.click();
+
+    fileInputSoil.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) return alert("Invalid file. Please upload an image.");
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewSoil.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = reader.result;
+        previewSoil.appendChild(img);
+        
+        // Store soil image in browser cache (localStorage)
+        localStorage.setItem("soilImage", reader.result);
+        localStorage.setItem("soilImageName", file.name);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Upload logic for Pest Image
+    const fileInputPest = document.getElementById("fileInputPest");
+    const chooseFilePest = document.getElementById("chooseFilePest");
+    const previewPest = document.getElementById("previewPest");
+
+    chooseFilePest.onclick = () => fileInputPest.click();
+
+    fileInputPest.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) return alert("Invalid file. Please upload an image.");
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewPest.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = reader.result;
+        previewPest.appendChild(img);
+        
+        // Store pest image in browser cache (localStorage)
+        localStorage.setItem("pestImage", reader.result);
+        localStorage.setItem("pestImageName", file.name);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Start Diagnosis → Always go to diagnosis.html
+    document.getElementById("startDiagBtn").onclick = () => {
+      window.location.href = "diagnosis.html";
+    };
+  </script>
+
+</body>
+</html>
